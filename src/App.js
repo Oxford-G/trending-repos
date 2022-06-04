@@ -1,11 +1,25 @@
 import './App.css';
+import React from 'react';
 
 const welcome = {
   greetings: "Hey",
   name: "React"
 }
 
+const useSemiPersistentState = (key, initialState) => {
+  const [value, setValue] = React.useState(
+    localStorage.getItem(key) || initialState
+  );
+
+  React.useEffect(() => {
+    localStorage.setItem(key, value)
+  }, [value, key])
+
+  return [value, setValue];
+}
+
 function App() {
+
   const stories = [
     {
       title: 'React',
@@ -25,22 +39,34 @@ function App() {
     },
   ];
 
-  const [searchTerm, setSearchTerm] = React.useState('');
+  const [searchTerm, setSearchTerm] = useSemiPersistentState('search', 'React');
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
+    localStorage.setItem('search', event.target.value);
     };
 
-  const searchedStories = stories.filter((story) => story.title.includes(searchTerm))
+  const searchedStories = stories.filter((story) => 
+    story.title.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
   return (
     <div className="App">
       <h1>My Hacker Stories</h1>
       
-      <Search />
+      <InputWithLabel
+        id="search"
+        value={searchTerm}
+        onInputChange={handleSearch}
+        type="text"
+        isFocused
+      >
+        <strong>Search:</strong>
+      </InputWithLabel>
+
       <hr/>
 
-      <List stories={stories}/>
+      <List stories={searchedStories}/>
     </div>
   );
 }
@@ -68,16 +94,21 @@ const Item = ({item} ) => (
   </li>
   );
 
-const Search = () => {
-  const handleChange = (event) => {
-    console.log(event);
-  };
+const InputWithLabel = ({id, children, value, onInputChange, isFocused, type}) => {
+  
+  const inputRef = React.useRef();
+
+  React.useEffect(() => {
+    if (isFocused && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isFocused]);
 
   return (
-    <div>
-      <label htmlFor="search">Search: </label>
-      <input id="search" type="text" onChange={handleChange} />
-    </div>
+    <>
+      <label htmlFor={id}>{children}</label>
+      <input id={id} type={type} value={value} onChange={onInputChange} ref={inputRef}/>
+    </>
   )
 }
 
