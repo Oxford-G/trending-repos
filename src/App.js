@@ -1,5 +1,6 @@
 import './App.css';
 import React from 'react';
+import axios from 'axios';
 
 const useSemiPersistentState = (key, initialState) => {
   const [value, setValue] = React.useState(
@@ -51,17 +52,22 @@ const API_ENDPOINT = `https://api.github.com/search/repositories?q=created:>${se
 
 function App() {
 
-  //search state and storage area
   const [searchTerm, setSearchTerm] = useSemiPersistentState('search', '2021-08-13');
 
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-    localStorage.setItem('search', event.target.value);
-  };
-  //end of search state and storage area
+  const [url, setUrl] = React.useState(`${API_ENDPOINT}${searchTerm}`);
 
-  //filter state and delete callback
-  // const [stories, setStories] = React.useState([]);
+  const handleSearchInput = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSearchSubmit = () => {
+    setUrl(`${API_ENDPOINT}${searchTerm}`);
+  };
+
+  // const handleSearch = (event) => {
+  //   setSearchTerm(event.target.value);
+  //   localStorage.setItem('search', event.target.value);
+  // };
 
   const [stories, dispatchStories] = React.useReducer(
     storiesReducer,{ data: [], isLoading: false, isError: false });
@@ -78,7 +84,7 @@ function App() {
 
     dispatchStories({ type: 'STORIES_FETCH_INIT' });
 
-    fetch(`${API_ENDPOINT}${searchTerm}`)
+    fetch(url)
       .then((response) => response.json())
       .then((result) => {
         dispatchStories({
@@ -89,7 +95,7 @@ function App() {
       .catch(() =>
       dispatchStories({ type: 'STORIES_FETCH_FAILURE' })
       );
-  }, [searchTerm]);
+  }, [url]);
 
   React.useEffect(() => {
     handleFetchStories();
@@ -110,12 +116,21 @@ function App() {
       <InputWithLabel
         id="search"
         value={searchTerm}
-        onInputChange={handleSearch}
+        // onInputChange={handleSearch}
         type="text"
         isFocused
+        onInputChange={handleSearchInput}
       >
         <strong>Search:</strong>
       </InputWithLabel>
+
+      <button
+        type="button"
+        disabled={!searchTerm}
+        onClick={handleSearchSubmit}
+      >
+        Submit
+      </button>
 
       <hr/>
 
