@@ -3,12 +3,21 @@ import React from 'react';
 import axios from 'axios';
 
 const useSemiPersistentState = (key, initialState) => {
+  const isMounted = React.useRef(false);
+
   const [value, setValue] = React.useState(
     localStorage.getItem(key) || initialState
   );
 
   React.useEffect(() => {
-    localStorage.setItem(key, value)
+    if (!isMounted.current) {
+
+      isMounted.current = true;
+
+    } else {
+        localStorage.setItem(key, value)
+    }
+
   }, [value, key])
 
   return [value, setValue];
@@ -60,8 +69,10 @@ function App() {
     setSearchTerm(event.target.value);
   };
 
-  const handleSearchSubmit = () => {
+  const handleSearchSubmit = (event) => {
     setUrl(`${API_ENDPOINT}${searchTerm}`);
+
+    event.preventDefault();
   };
 
   // const handleSearch = (event) => {
@@ -80,16 +91,15 @@ function App() {
   // )
   
   const handleFetchStories = React.useCallback(() => { 
-    if (!searchTerm) return;
-
     dispatchStories({ type: 'STORIES_FETCH_INIT' });
 
-    fetch(url)
-      .then((response) => response.json())
+    // fetch(url)
+    //   .then((response) => response.json())
+    axios.get(url)
       .then((result) => {
         dispatchStories({
         type: 'STORIES_FETCH_SUCCESS',
-        payload: result.items,
+        payload: result.data.items,
         });
       })
       .catch(() =>
@@ -101,36 +111,24 @@ function App() {
     handleFetchStories();
   }, [handleFetchStories]);
 
-  const handleRemoveStory = (item) => {
+  const handleRemoveStory = React.useCallback((item) => {
     dispatchStories({
       type: 'REMOVE_STORY',
       payload: item,
     });
-  };
+  }, []);
+
   //end of filter state and delete callback
 
   return (
     <div className="App">
       <h1>My Hacker Stories</h1>
       
-      <InputWithLabel
-        id="search"
-        value={searchTerm}
-        // onInputChange={handleSearch}
-        type="text"
-        isFocused
-        onInputChange={handleSearchInput}
-      >
-        <strong>Search:</strong>
-      </InputWithLabel>
-
-      <button
-        type="button"
-        disabled={!searchTerm}
-        onClick={handleSearchSubmit}
-      >
-        Submit
-      </button>
+      <SearchForm
+        searchTerm={searchTerm}
+        onSearchInput={handleSearchInput}
+        onSearchSubmit={handleSearchSubmit}
+      />
 
       <hr/>
 
@@ -146,7 +144,7 @@ function App() {
   );
 }
 
-function List({list, onRemoveItem}) {
+const List = React.memo(({list, onRemoveItem}) => {
   return (
     <ul>
       {list.map((item) =>
@@ -156,7 +154,7 @@ function List({list, onRemoveItem}) {
       })}
     </ul>
   );
-}
+})
 
 const Item = ({item, onRemoveItem} ) => {
 
@@ -198,5 +196,23 @@ const InputWithLabel = ({id, children, value, onInputChange, isFocused, type}) =
     </>
   )
 }
+
+const SearchForm = ({ searchTerm, onSearchInput, onSearchSubmit }) => (
+  <form onSubmit={onSearchSubmit}>
+    <InputWithLabel
+      id="search"
+      value={searchTerm}
+      isFocused
+      onInputChange={onSearchInput}
+    >
+      <strong>Search:</strong>
+    </InputWithLabel>
+
+    <button type="submit" disabled={!searchTerm}>
+      Submit
+    </button>
+
+  </form>
+);
 
 export default App;
