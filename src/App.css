@@ -1,38 +1,236 @@
-.App {
+
+.container {
+  margin: 0 auto;
+  width: 90%;
+}
+
+nav {
+  background-color: black;
+  color: aliceblue;
   text-align: center;
+  font-size: 40px;
+  line-height: 70px;
+  margin-bottom: 50px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h1 {
+  /* background-color: rgb(131, 124, 124); */
+  color: black;
+  text-align: center;
+  margin-top: 10px;
+  font-weight: 500;
+  margin-bottom: 50px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* form {
+  background-color: aqua;
+  margin-left: 25px;
+} */
+
+form > input {
+  background-color: #f4f0eb;
+  font-size: 21px;
+  border: 0;
+  padding-left: 10px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+form > label {
+  background-color: rgb(244, 219, 188);
+  font-size: 21px;
+  margin-right: -4px;
+  padding: 5px 0;
+}
+
+form > button {
+  background-color: rgb(27, 139, 206);
+  font-size: 21px;
+  border-radius: 5px;
+  border: none;
+}
+
+.error {
+  /* background-color: rgb(15, 80, 29); */
+  color: red;
+}
+
+.loading {
+  /* background-color: rgb(15, 80, 29); */
+  color: black
+}
+
+.page {
+  background-color: rgb(68, 206, 174);
+  /* color: rgb(236, 220, 220); */
+  width: 130px;
+  display: inline-block;
+  text-align: center;
+  line-height: 35px;
+  border-radius: 5px;
+  font-size: 20px;
+}
+
+.sort_container {
+  /* background-color: blue; */
+  list-style: none;
+  margin: 20px 0;
+}
+
+/* .sort_name {
+  background-color: aqua;
+} */
+
+.sort_name  > button{
+  background-color: #3e0bf4;
+  margin-right: 10px;
+  width: 130px;
+  display: inline-block;
+  text-align: center;
+  line-height: 35px;
+  border-radius: 5px;
+  margin-left: 5px;
+  font-size: 20px;
+}
+
+/* .sort_star {
+  background-color: rgb(158, 148, 93);
+} */
+
+.sort_star  > button{
+  background-color: gold;
+  margin-right: 10px;
+  width: 130px;
+  display: inline-block;
+  text-align: center;
+  line-height: 35px;
+  border-radius: 5px;
+  margin-left: 5px;
+  font-size: 20px;
+}
+
+/* .sort_issues {
+  background-color: rgb(15, 39, 39);
+} */
+
+.sort_issues  > button{
+  background-color: rgb(183, 17, 25);
+  margin-right: 10px;
+  width: 130px;
+  display: inline-block;
+  text-align: center;
+  line-height: 35px;
+  border-radius: 5px;
+  margin-left: 5px;
+  font-size: 20px;
+}
+
+.sort_action {
+  /* background-color: red; */
+  width: 55%;
+  display: inline-block;
+  text-align: right;
+  line-height: 35px;
+  font-size: 25px;
+}
+
+.sort_by {
+  font-weight: 600;
+}
+
+.profile {
+  list-style: none;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  margin: 10px 0;
+  width: 100%;
+  height: 300px;
+}
+
+.image {
+  width: 30%;
+}
+
+.image > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.text_body {
+  margin-left: 10px;
+  width: 60%;
+}
+
+.name {
+  background-color: rgb(32, 29, 36);
+  display: inline-block;
+  width: 100%;
+  font-size: 30px;
+  line-height: 40px;
+  /* margin: 5px; */
+}
+
+.name > a{
+  text-decoration: none;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.description {
+  background-color: rgb(236, 231, 240);
+  display: inline-block;
+  width: 100%;
+  height: 170px;
+  overflow: hidden;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.login {
+  /* background-color: rgb(76, 74, 78); */
+  width: 395px;
+  display: inline-block;
+  text-align: right;
+  line-height: 35px;
+  margin-left: 5px;
+  font-size: 20px;
+}
+
+.star {
+  background-color: gold;;
+  margin-right: 10px;
+  width: 130px;
+  display: inline-block;
+  text-align: center;
+  line-height: 35px;
+  border-radius: 5px;
+  margin-left: 5px;
+  font-size: 20px;
+}
+
+.issues{
+  background-color: rgb(183, 17, 25);
+  margin-right: 10px;
+  width: 130px;
+  display: inline-block;
+  text-align: center;
+  line-height: 35px;
+  border-radius: 5px;
+  margin-left: 5px;
+  font-size: 20px;
+}
+
+.button {
+  /* background-color: rgb(225, 218, 232); */
+  width: 10%;
+}
+
+.button > button{
+  background-color: rgb(227, 21, 60);
+  font-size: 25px;
+  border: none;
+  border-radius: 5px;
+}
+
+/* .button > button{
+  background-color: rgb(227, 21, 60);
+} */
+
+.sort-actions {
+  background-color: rgb(227, 21, 60);
 }
