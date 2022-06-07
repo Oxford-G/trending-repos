@@ -235,7 +235,7 @@ const Item = ({ item, onRemoveItem }) => (
 
     <span className="text_body">
       <span className="name">
-        <a href={item.url}>{item.name}</a>
+        <a href={item.html_url}>{item.name}</a>
       </span>
       <span className="description">{item.description}</span>
       <span className="star">Stars: {item.stargazers_count}</span>
