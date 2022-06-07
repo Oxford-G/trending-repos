@@ -25,6 +25,10 @@ repos.
 - HTML
 - CSS
 
+## Screenshot
+![](./src/trending_repos.png)
+
+
 ## Getting Started
 
 To get a local copy up and running follow these simple example steps.
