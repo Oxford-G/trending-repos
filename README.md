@@ -2,7 +2,8 @@
 # Trending-Repos
 
 Trending-Repos is a web app that allows users to search and lists the most starred Github 
-repos.
+repos. Trending-Repos gets data from the github api and shows the following fields listed
+below.
 
 - The app shows the following fields the display:
     - Repository name
